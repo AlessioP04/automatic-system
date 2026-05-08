@@ -39,3 +39,16 @@ Quindi per esempio si crea la variabile REAL su %MD0 e in matlab potrò leggerla
 2. Su openPLC runtime (localhost:8080) fare l'upload della build (in particolare il file generated.plc.st) nella sezione programs.
 3. Successivamente avviare il plc e visualizzare monitoring. Se non viene visualizzato bene provare a spegnere e riaccendere il plc, spesso funziona.
 4. Avvia MATLAB e apri app1.mlapp. Qui viene simulato l'intero processo fisico.
+
+
+## Esempi di lettura dati su matlab
+	% Coils e BOOL
+                    coils = read(app.mb, 'coils', 4, 1);
+                    write(app.mb, "coils", 4, 0)
+
+                    % REAL
+                    weight = app.readReal(2049);
+                    app.writeReal(2049, 2000.9);
+
+                    % INT (con input Register)
+                    read(app.mb, "inputregs", 2, 2);
