@@ -1,0 +1,18 @@
+# OpenPLC build files
+build/
+*.o
+*.exe
+*.out
+
+# OpenPLC Editor temp
+*.bak
+*.tmp
+
+# MATLAB cache
+slprj/
+codegen/
+*.asv
+
+# OS files
+.DS_Store
+Thumbs.db

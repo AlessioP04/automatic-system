@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project xmlns="http://www.plcopen.org/xml/tc6_0201" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ns1="http://www.plcopen.org/xml/tc6_0201">
+  <fileHeader companyName="Sconosciuto" productName="Senza_nome" productVersion="1" creationDateTime="2026-05-07T19:29:21"/>
+  <contentHeader name="Senza_nome" modificationDateTime="2026-05-08T13:10:32">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="10" y="10"/>
+      </fbd>
+      <ld>
+        <scaling x="10" y="10"/>
+      </ld>
+      <sfc>
+        <scaling x="10" y="10"/>
+      </sfc>
+    </coordinateInfo>
+  </contentHeader>
+  <types>
+    <dataTypes/>
+    <pous>
+      <pou name="impianto" pouType="program">
+        <interface>
+          <localVars>
+            <variable name="valid" address="%QX0.0">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="false"/>
+              </initialValue>
+            </variable>
+            <variable name="weight" address="%MD0">
+              <type>
+                <REAL/>
+              </type>
+              <initialValue>
+                <simpleValue value="3.5"/>
+              </initialValue>
+            </variable>
+            <variable name="valid2" address="%IW1">
+              <type>
+                <INT/>
+              </type>
+              <initialValue>
+                <simpleValue value="4"/>
+              </initialValue>
+            </variable>
+            <variable name="valid3" address="%IW2">
+              <type>
+                <INT/>
+              </type>
+              <initialValue>
+                <simpleValue value="5"/>
+              </initialValue>
+            </variable>
+            <variable name="valid4" address="%MW0">
+              <type>
+                <INT/>
+              </type>
+              <initialValue>
+                <simpleValue value="5"/>
+              </initialValue>
+            </variable>
+            <variable name="valid5" address="%MW1">
+              <type>
+                <INT/>
+              </type>
+              <initialValue>
+                <simpleValue value="6"/>
+              </initialValue>
+            </variable>
+            <variable name="valid6" address="%MW2">
+              <type>
+                <INT/>
+              </type>
+              <initialValue>
+                <simpleValue value="7"/>
+              </initialValue>
+            </variable>
+          </localVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml:p><![CDATA[IF (weight >= 1.0) AND (weight <= 2.0) THEN
+    valid := (weight >= 1.4) AND (weight <= 1.6);
+
+ELSIF (weight >= 4.0) AND (weight <= 5.0) THEN
+    valid := (weight >= 4.4) AND (weight <= 4.6);
+
+ELSIF (weight >= 7.0) AND (weight <= 8.0) THEN
+    valid := (weight >= 7.4) AND (weight <= 7.6);
+
+ELSE
+    valid := FALSE;
+END_IF;]]></xhtml:p>
+          </ST>
+        </body>
+      </pou>
+    </pous>
+  </types>
+  <instances>
+    <configurations>
+      <configuration name="Config0">
+        <resource name="Res0">
+          <task name="task0" priority="0" interval="T#20ms">
+            <pouInstance name="instance0" typeName="impianto"/>
+          </task>
+        </resource>
+      </configuration>
+    </configurations>
+  </instances>
+</project>

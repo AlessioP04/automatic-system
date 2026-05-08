@@ -1,0 +1,41 @@
+# Impianto Auto - OpenPLC + MATLAB
+
+## Descrizione
+Sistema di controllo basato su OpenPLC con interfaccia MATLAB via Modbus TCP.
+
+## Architettura
+MATLAB ⇄ Modbus TCP ⇄ OpenPLC Runtime
+
+## Moduli
+- MATLAB: simulazione del sistema fisico
+- OpenPLC: logica PLC (Structured Text)
+- Modbus: comunicazione
+- Ignition: si vedrà
+
+## Mappa registri: come comunicare tra openPLC e matlab
+Le variabili vanno definite in openPLC. La definizione non avviene tramite codice ma attraverso la table fornita dall'editor stesso (niente di strano, la tabella della variabili che appare appena apri openplc editor).
+La classe deve essere locale, per il tipo si può usare quello che si vuole ma bisognerà poi associare la corretta location: infatti ogni valore della location viene mappato in un determinato registro di modbus (in maniera automatica, ci pensa openplc).
+Indirizzi OpenPLC
+Sono della forma %xy0.0 dove x può essere I/Q/M (input/output/memoria interna), y può essere X/W/D/L(singolo bit, word (cioè 16bit), double word o long word(64b)). I valori numerici rappresentano il byte e il bit usato: 2.3 sarà il quarto bit del terzo byte.
+
+Registri modbus
+4 tipi di registri: coil(1b, R/W), discrete input(1b, R), input register(16b, R), holding register(16b, R/W). 
+Al seguente link è presente la mappatura tra gli indirizzi di openPLC e i registri modbus: https://openplc.discussion.community/post/big-update-with-new-cool-features-8173271
+
+Matlab
+Dopo aver avviato la comunicazione con modbus Matlab dovrà fare richieste tramite read/write specificando:
+- app.mb, cioè la comunicazione
+- registerType, una stringa: "coils", "inputs", "inputregs", "holdingregs"
+- startAddress, un valore che l'indirizzo da dove si vuole iniziare la lettura/scrittura. 
+- count, quanti registri leggere.
+
+Valori REAL
+I valori REAL di openPLC sono a 32 bit, quindi due registri holdingregs, mappati tramite %MD a partire sugli indirizzi 2048-4095.
+Quindi per esempio si crea la variabile REAL su %MD0 e in matlab potrò leggerla tramite read(app.mb, "holdingregs", 2049, 2). Nota che in matlab gli indirizzi partono da 1 e non da 0 quindi vanno aumentati di 1 rispetto a quelli di modbus. Nel caso specifico dei REAL, il valore è scomposto sue due diversi registri quindi c'è un utility readReal(2049) per ottenere la lettura ben formattata.
+
+
+## Avvio
+1. Avvia OpenPLC editor e apri la cartella openplc. Esegui la build del file principale.
+2. Su openPLC runtime (localhost:8080) fare l'upload della build (in particolare il file generated.plc.st) nella sezione programs.
+3. Successivamente avviare il plc e visualizzare monitoring. Se non viene visualizzato bene provare a spegnere e riaccendere il plc, spesso funziona.
+4. Avvia MATLAB e apri app1.mlapp. Qui viene simulato l'intero processo fisico.
