@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <project xmlns="http://www.plcopen.org/xml/tc6_0201" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ns1="http://www.plcopen.org/xml/tc6_0201">
   <fileHeader companyName="Sconosciuto" productName="Senza_nome" productVersion="1" creationDateTime="2026-05-07T19:29:21"/>
-  <contentHeader name="Senza_nome" modificationDateTime="2026-05-08T13:10:32">
+  <contentHeader name="Senza_nome" modificationDateTime="2026-05-10T00:20:15">
     <coordinateInfo>
       <fbd>
         <scaling x="10" y="10"/>
@@ -24,74 +24,62 @@
               <type>
                 <BOOL/>
               </type>
-              <initialValue>
-                <simpleValue value="false"/>
-              </initialValue>
+            </variable>
+            <variable name="objectType" address="%QW0">
+              <type>
+                <INT/>
+              </type>
             </variable>
             <variable name="weight" address="%MD0">
               <type>
                 <REAL/>
               </type>
-              <initialValue>
-                <simpleValue value="3.5"/>
-              </initialValue>
             </variable>
-            <variable name="valid2" address="%IW1">
+            <variable name="toAddA" address="%QW1">
               <type>
                 <INT/>
               </type>
-              <initialValue>
-                <simpleValue value="4"/>
-              </initialValue>
             </variable>
-            <variable name="valid3" address="%IW2">
+            <variable name="toAddB" address="%QW2">
               <type>
                 <INT/>
               </type>
-              <initialValue>
-                <simpleValue value="5"/>
-              </initialValue>
-            </variable>
-            <variable name="valid4" address="%MW0">
-              <type>
-                <INT/>
-              </type>
-              <initialValue>
-                <simpleValue value="5"/>
-              </initialValue>
-            </variable>
-            <variable name="valid5" address="%MW1">
-              <type>
-                <INT/>
-              </type>
-              <initialValue>
-                <simpleValue value="6"/>
-              </initialValue>
-            </variable>
-            <variable name="valid6" address="%MW2">
-              <type>
-                <INT/>
-              </type>
-              <initialValue>
-                <simpleValue value="7"/>
-              </initialValue>
             </variable>
           </localVars>
         </interface>
         <body>
           <ST>
-            <xhtml:p><![CDATA[IF (weight >= 1.0) AND (weight <= 2.0) THEN
-    valid := (weight >= 1.4) AND (weight <= 1.6);
+            <xhtml:p><![CDATA[IF (weight >= 1.49) AND (weight <= 1.51) THEN
 
-ELSIF (weight >= 4.0) AND (weight <= 5.0) THEN
-    valid := (weight >= 4.4) AND (weight <= 4.6);
+    valid := TRUE;
+    objectType := 1;
+    toAddA := REAL_TO_INT((weight-1.500)/3.0*1000.0);
 
-ELSIF (weight >= 7.0) AND (weight <= 8.0) THEN
-    valid := (weight >= 7.4) AND (weight <= 7.6);
+ELSIF (weight >= 2.49) AND (weight <= 2.51) THEN
+
+    valid := TRUE;
+    objectType := 2;
+    toAddB := REAL_TO_INT((weight-1.5)/5.0*1000.0);
+
+ELSIF (weight >= 3.0) AND (weight <= 3.5) THEN
+
+    valid := (weight >= 3.1) AND (weight <= 3.4);
+
+    IF valid THEN
+        objectType := 3;
+    ELSE
+        objectType := 4;
+    END_IF;
 
 ELSE
+
     valid := FALSE;
-END_IF;]]></xhtml:p>
+    objectType := 4;
+
+END_IF;
+
+
+]]></xhtml:p>
           </ST>
         </body>
       </pou>

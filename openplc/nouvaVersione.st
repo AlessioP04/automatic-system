@@ -1,25 +1,35 @@
 PROGRAM impianto
   VAR
-    valid AT %QX0.0 : BOOL := false;
-    weight AT %MD0 : REAL := 3.5;
-    valid2 AT %IW1 : INT := 4;
-    valid3 AT %IW2 : INT := 5;
-    valid4 AT %MW0 : INT := 5;
-    valid5 AT %MW1 : INT := 6;
-    valid6 AT %MW2 : INT := 7;
+    valid AT %QX0.0 : BOOL;
+    objectType AT %QW0 : INT;
+    weight AT %MD0 : REAL;
   END_VAR
 
-  IF (weight >= 1.0) AND (weight <= 2.0) THEN
-      valid := (weight >= 1.4) AND (weight <= 1.6);
+  IF (weight >= 1.49) AND (weight <= 1.51) THEN
 
-  ELSIF (weight >= 4.0) AND (weight <= 5.0) THEN
-      valid := (weight >= 4.4) AND (weight <= 4.6);
+      valid := TRUE;
+      objectType := 0;
 
-  ELSIF (weight >= 7.0) AND (weight <= 8.0) THEN
-      valid := (weight >= 7.4) AND (weight <= 7.6);
+  ELSIF (weight >= 2.49) AND (weight <= 2.51) THEN
+
+      valid := TRUE;
+      objectType := 1;
+
+  ELSIF (weight >= 3.0) AND (weight <= 3.5) THEN
+
+      valid := (weight >= 3.1) AND (weight <= 3.4);
+
+      IF valid THEN
+          objectType := 2;
+      ELSE
+          objectType := 4;
+      END_IF;
 
   ELSE
+
       valid := FALSE;
+      objectType := 4;
+
   END_IF;
 END_PROGRAM
 
@@ -32,7 +42,7 @@ CONFIGURATION Config0
   END_RESOURCE
 END_CONFIGURATION
 
-(*DBG:char md5[] = "728d4ae52e91085b54ff6ff86f27f021";*)
+(*DBG:char md5[] = "409fcf91078b2a145895101197a88ab8";*)
 (*DBG:/**)
 (*DBG: * This file is part of OpenPLC Runtime*)
 (*DBG: **)
@@ -72,15 +82,11 @@ END_CONFIGURATION
 (*DBG:    __IEC_types_enum type;*)
 (*DBG:} debug_vars[] = {*)
 (*DBG:    {&(RES0__INSTANCE0.VALID), BOOL_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.OBJECTTYPE), INT_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.WEIGHT), REAL_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE0.VALID2), INT_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE0.VALID3), INT_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE0.VALID4), INT_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE0.VALID5), INT_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE0.VALID6), INT_ENUM},*)
 (*DBG:};*)
 (*DBG:*)
-(*DBG:#define VAR_COUNT               7*)
+(*DBG:#define VAR_COUNT               3*)
 (*DBG:*)
 (*DBG:uint16_t get_var_count(void)*)
 (*DBG:{*)
@@ -94,12 +100,12 @@ END_CONFIGURATION
 (*DBG:        return 0;*)
 (*DBG:    }*)
 (*DBG:    switch (debug_vars[idx].type) {*)
-(*DBG:    case REAL_ENUM:*)
-(*DBG:        return sizeof(REAL);*)
 (*DBG:    case BOOL_ENUM:*)
 (*DBG:        return sizeof(BOOL);*)
 (*DBG:    case INT_ENUM:*)
 (*DBG:        return sizeof(INT);*)
+(*DBG:    case REAL_ENUM:*)
+(*DBG:        return sizeof(REAL);*)
 (*DBG:    default:*)
 (*DBG:        return 0;*)
 (*DBG:    }*)
@@ -110,12 +116,12 @@ END_CONFIGURATION
 (*DBG:    void *ptr = debug_vars[idx].ptr;*)
 (*DBG:*)
 (*DBG:    switch (debug_vars[idx].type) {*)
-(*DBG:    case REAL_ENUM:*)
-(*DBG:        return (void *)&((__IEC_REAL_t *) ptr)->value;*)
 (*DBG:    case BOOL_ENUM:*)
 (*DBG:        return (void *)&((__IEC_BOOL_t *) ptr)->value;*)
 (*DBG:    case INT_ENUM:*)
 (*DBG:        return (void *)&((__IEC_INT_t *) ptr)->value;*)
+(*DBG:    case REAL_ENUM:*)
+(*DBG:        return (void *)&((__IEC_REAL_t *) ptr)->value;*)
 (*DBG:    default:*)
 (*DBG:        return 0;*)
 (*DBG:    }*)
@@ -128,12 +134,6 @@ END_CONFIGURATION
 (*DBG:    if (forced) {*)
 (*DBG:        size_t var_size = get_var_size(idx);*)
 (*DBG:        switch (debug_vars[idx].type) {*)
-(*DBG:        case REAL_ENUM: {*)
-(*DBG:            memcpy(&((__IEC_REAL_t *) ptr)->value, val, var_size);*)
-(*DBG:            //((__IEC_REAL_t *) ptr)->value = *((REAL *) val);*)
-(*DBG:            ((__IEC_REAL_t *) ptr)->flags |= __IEC_FORCE_FLAG;*)
-(*DBG:            break;*)
-(*DBG:        }*)
 (*DBG:        case BOOL_ENUM: {*)
 (*DBG:            memcpy(&((__IEC_BOOL_t *) ptr)->value, val, var_size);*)
 (*DBG:            //((__IEC_BOOL_t *) ptr)->value = *((BOOL *) val);*)
@@ -146,19 +146,25 @@ END_CONFIGURATION
 (*DBG:            ((__IEC_INT_t *) ptr)->flags |= __IEC_FORCE_FLAG;*)
 (*DBG:            break;*)
 (*DBG:        }*)
+(*DBG:        case REAL_ENUM: {*)
+(*DBG:            memcpy(&((__IEC_REAL_t *) ptr)->value, val, var_size);*)
+(*DBG:            //((__IEC_REAL_t *) ptr)->value = *((REAL *) val);*)
+(*DBG:            ((__IEC_REAL_t *) ptr)->flags |= __IEC_FORCE_FLAG;*)
+(*DBG:            break;*)
+(*DBG:        }*)
 (*DBG:        default:*)
 (*DBG:            break;*)
 (*DBG:        }*)
 (*DBG:    } else {*)
 (*DBG:        switch (debug_vars[idx].type) {*)
-(*DBG:        case REAL_ENUM:*)
-(*DBG:            ((__IEC_REAL_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
-(*DBG:            break;*)
 (*DBG:        case BOOL_ENUM:*)
 (*DBG:            ((__IEC_BOOL_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
 (*DBG:            break;*)
 (*DBG:        case INT_ENUM:*)
 (*DBG:            ((__IEC_INT_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
+(*DBG:            break;*)
+(*DBG:        case REAL_ENUM:*)
+(*DBG:            ((__IEC_REAL_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
 (*DBG:            break;*)
 (*DBG:        default:*)
 (*DBG:            break;*)
