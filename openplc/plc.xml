@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <project xmlns="http://www.plcopen.org/xml/tc6_0201" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ns1="http://www.plcopen.org/xml/tc6_0201">
   <fileHeader companyName="Sconosciuto" productName="Senza_nome" productVersion="1" creationDateTime="2026-05-07T19:29:21"/>
-  <contentHeader name="Senza_nome" modificationDateTime="2026-05-10T00:20:15">
+  <contentHeader name="Senza_nome" modificationDateTime="2026-05-14T10:35:15">
     <coordinateInfo>
       <fbd>
         <scaling x="10" y="10"/>
@@ -59,7 +59,7 @@ ELSIF (weight >= 2.49) AND (weight <= 2.51) THEN
 
     valid := TRUE;
     objectType := 2;
-    toAddB := REAL_TO_INT((weight-1.5)/5.0*1000.0);
+    toAddB := REAL_TO_INT((weight-2.5)/5.0*1000.0);
 
 ELSIF (weight >= 3.0) AND (weight <= 3.5) THEN
 

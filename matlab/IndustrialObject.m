@@ -6,6 +6,7 @@ classdef IndustrialObject < handle
         graphic 
         state
         shouldDelete = false;
+        waitingTime=0;
     end
     
     methods
