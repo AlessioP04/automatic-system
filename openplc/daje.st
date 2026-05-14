@@ -13,11 +13,11 @@ PROGRAM impianto
       objectType := 1;
       toAddA := REAL_TO_INT((weight-1.500)/3.0*1000.0);
 
-  ELSIF (weight >= 2.49) AND (weight <= 2.51) THEN
+  ELSIF (weight >= 2.48) AND (weight <= 2.52) THEN
 
       valid := TRUE;
       objectType := 2;
-      toAddB := REAL_TO_INT((weight-1.5)/5.0*1000.0);
+      toAddB := REAL_TO_INT((weight-2.5)/5.0*1000.0);
 
   ELSIF (weight >= 3.0) AND (weight <= 3.5) THEN
 
@@ -110,10 +110,10 @@ END_CONFIGURATION
 (*DBG:    switch (debug_vars[idx].type) {*)
 (*DBG:    case INT_ENUM:*)
 (*DBG:        return sizeof(INT);*)
-(*DBG:    case BOOL_ENUM:*)
-(*DBG:        return sizeof(BOOL);*)
 (*DBG:    case REAL_ENUM:*)
 (*DBG:        return sizeof(REAL);*)
+(*DBG:    case BOOL_ENUM:*)
+(*DBG:        return sizeof(BOOL);*)
 (*DBG:    default:*)
 (*DBG:        return 0;*)
 (*DBG:    }*)
@@ -126,10 +126,10 @@ END_CONFIGURATION
 (*DBG:    switch (debug_vars[idx].type) {*)
 (*DBG:    case INT_ENUM:*)
 (*DBG:        return (void *)&((__IEC_INT_t *) ptr)->value;*)
-(*DBG:    case BOOL_ENUM:*)
-(*DBG:        return (void *)&((__IEC_BOOL_t *) ptr)->value;*)
 (*DBG:    case REAL_ENUM:*)
 (*DBG:        return (void *)&((__IEC_REAL_t *) ptr)->value;*)
+(*DBG:    case BOOL_ENUM:*)
+(*DBG:        return (void *)&((__IEC_BOOL_t *) ptr)->value;*)
 (*DBG:    default:*)
 (*DBG:        return 0;*)
 (*DBG:    }*)
@@ -148,16 +148,16 @@ END_CONFIGURATION
 (*DBG:            ((__IEC_INT_t *) ptr)->flags |= __IEC_FORCE_FLAG;*)
 (*DBG:            break;*)
 (*DBG:        }*)
-(*DBG:        case BOOL_ENUM: {*)
-(*DBG:            memcpy(&((__IEC_BOOL_t *) ptr)->value, val, var_size);*)
-(*DBG:            //((__IEC_BOOL_t *) ptr)->value = *((BOOL *) val);*)
-(*DBG:            ((__IEC_BOOL_t *) ptr)->flags |= __IEC_FORCE_FLAG;*)
-(*DBG:            break;*)
-(*DBG:        }*)
 (*DBG:        case REAL_ENUM: {*)
 (*DBG:            memcpy(&((__IEC_REAL_t *) ptr)->value, val, var_size);*)
 (*DBG:            //((__IEC_REAL_t *) ptr)->value = *((REAL *) val);*)
 (*DBG:            ((__IEC_REAL_t *) ptr)->flags |= __IEC_FORCE_FLAG;*)
+(*DBG:            break;*)
+(*DBG:        }*)
+(*DBG:        case BOOL_ENUM: {*)
+(*DBG:            memcpy(&((__IEC_BOOL_t *) ptr)->value, val, var_size);*)
+(*DBG:            //((__IEC_BOOL_t *) ptr)->value = *((BOOL *) val);*)
+(*DBG:            ((__IEC_BOOL_t *) ptr)->flags |= __IEC_FORCE_FLAG;*)
 (*DBG:            break;*)
 (*DBG:        }*)
 (*DBG:        default:*)
@@ -168,11 +168,11 @@ END_CONFIGURATION
 (*DBG:        case INT_ENUM:*)
 (*DBG:            ((__IEC_INT_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
 (*DBG:            break;*)
-(*DBG:        case BOOL_ENUM:*)
-(*DBG:            ((__IEC_BOOL_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
-(*DBG:            break;*)
 (*DBG:        case REAL_ENUM:*)
 (*DBG:            ((__IEC_REAL_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
+(*DBG:            break;*)
+(*DBG:        case BOOL_ENUM:*)
+(*DBG:            ((__IEC_BOOL_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
 (*DBG:            break;*)
 (*DBG:        default:*)
 (*DBG:            break;*)
