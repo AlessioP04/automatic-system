@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <project xmlns="http://www.plcopen.org/xml/tc6_0201" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ns1="http://www.plcopen.org/xml/tc6_0201">
   <fileHeader companyName="Sconosciuto" productName="Senza_nome" productVersion="1" creationDateTime="2026-05-07T19:29:21"/>
-  <contentHeader name="Senza_nome" modificationDateTime="2026-05-14T12:19:00">
+  <contentHeader name="Senza_nome" modificationDateTime="2026-05-14T18:55:20">
     <coordinateInfo>
       <fbd>
         <scaling x="10" y="10"/>
@@ -20,19 +20,14 @@
       <pou name="impianto" pouType="program">
         <interface>
           <localVars>
-            <variable name="valid" address="%QX0.0">
+            <variable name="boxWeight" address="%MD0">
               <type>
-                <BOOL/>
+                <REAL/>
               </type>
             </variable>
             <variable name="objectType" address="%QW0">
               <type>
                 <INT/>
-              </type>
-            </variable>
-            <variable name="weight" address="%MD0">
-              <type>
-                <REAL/>
               </type>
             </variable>
             <variable name="toAddA" address="%QW1">
@@ -45,36 +40,42 @@
                 <INT/>
               </type>
             </variable>
+            <variable name="toAddC" address="%QW3">
+              <type>
+                <INT/>
+              </type>
+            </variable>
+            <variable name="turbineWeight" address="%MD1">
+              <type>
+                <REAL/>
+              </type>
+            </variable>
+            <variable name="turbineValidity" address="%QX0.0">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
           </localVars>
         </interface>
         <body>
           <ST>
-            <xhtml:p><![CDATA[IF (weight >= 1.49) AND (weight <= 1.51) THEN
-
-    valid := TRUE;
+            <xhtml:p><![CDATA[IF (boxWeight >= 1.49) AND (boxWeight <= 1.51) THEN
     objectType := 1;
-    toAddA := REAL_TO_INT((weight-1.500)/3.0*1000.0);
+    toAddA := REAL_TO_INT((boxWeight-1.500)/3.0*1000.0);
 
-ELSIF (weight >= 2.48) AND (weight <= 2.52) THEN
-
-    valid := TRUE;
+ELSIF (boxWeight >= 2.48) AND (boxWeight <= 2.52) THEN
     objectType := 2;
-    toAddB := REAL_TO_INT((weight-2.5)/5.0*1000.0);
+    toAddB := REAL_TO_INT((boxWeight-2.5)/5.0*1000.0);
 
-ELSIF (weight >= 3.0) AND (weight <= 3.5) THEN
+ELSIF (boxWeight >= 3.0) AND (boxWeight <= 3.5) THEN
+    objectType := 3;
+    toAddC := REAL_TO_INT((boxWeight-3.3)/50.0*1000.0);
 
-    valid := (weight >= 3.1) AND (weight <= 3.4);
+END_IF;
 
-    IF valid THEN
-        objectType := 3;
-    ELSE
-        objectType := 4;
-    END_IF;
-
-ELSE
-
-    valid := FALSE;
-    objectType := 4;
+IF (turbineWeight < 3.1) OR (turbineWeight > 3.4) THEN
+    turbineValidity := FALSE;
+ELSE   turbineValidity := TRUE;
 
 END_IF;
 

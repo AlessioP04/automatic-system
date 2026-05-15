@@ -1,38 +1,32 @@
 PROGRAM impianto
   VAR
-    valid AT %QX0.0 : BOOL;
+    boxWeight AT %MD0 : REAL;
     objectType AT %QW0 : INT;
-    weight AT %MD0 : REAL;
     toAddA AT %QW1 : INT;
     toAddB AT %QW2 : INT;
+    toAddC AT %QW3 : INT;
+    turbineWeight AT %MD1 : REAL;
+    turbineValidity AT %QX0.0 : BOOL;
   END_VAR
 
-  IF (weight >= 1.49) AND (weight <= 1.51) THEN
-
-      valid := TRUE;
+  IF (boxWeight >= 1.49) AND (boxWeight <= 1.51) THEN
       objectType := 1;
-      toAddA := REAL_TO_INT((weight-1.500)/3.0*1000.0);
+      toAddA := REAL_TO_INT((boxWeight-1.500)/3.0*1000.0);
 
-  ELSIF (weight >= 2.48) AND (weight <= 2.52) THEN
-
-      valid := TRUE;
+  ELSIF (boxWeight >= 2.48) AND (boxWeight <= 2.52) THEN
       objectType := 2;
-      toAddB := REAL_TO_INT((weight-2.5)/5.0*1000.0);
+      toAddB := REAL_TO_INT((boxWeight-2.5)/5.0*1000.0);
 
-  ELSIF (weight >= 3.0) AND (weight <= 3.5) THEN
+  ELSIF (boxWeight >= 3.0) AND (boxWeight <= 3.5) THEN
+      objectType := 3;
 
-      valid := (weight >= 3.1) AND (weight <= 3.4);
+      toAddC := REAL_TO_INT((boxWeight-3.3)/50.0*1000.0);
 
-      IF valid THEN
-          objectType := 3;
-      ELSE
-          objectType := 4;
-      END_IF;
+  END_IF;
 
-  ELSE
-
-      valid := FALSE;
-      objectType := 4;
+  IF (turbineWeight < 3.1) OR (turbineWeight > 3.4) THEN
+      turbineValidity := FALSE;
+  ELSE   turbineValidity := TRUE;
 
   END_IF;
 
@@ -48,7 +42,7 @@ CONFIGURATION Config0
   END_RESOURCE
 END_CONFIGURATION
 
-(*DBG:char md5[] = "c2d8be2e0ef91a3c58755f332b36dda2";*)
+(*DBG:char md5[] = "052b3a1984e56f64771f69a44daac813";*)
 (*DBG:/**)
 (*DBG: * This file is part of OpenPLC Runtime*)
 (*DBG: **)
@@ -87,14 +81,16 @@ END_CONFIGURATION
 (*DBG:    void *ptr;*)
 (*DBG:    __IEC_types_enum type;*)
 (*DBG:} debug_vars[] = {*)
-(*DBG:    {&(RES0__INSTANCE0.VALID), BOOL_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.BOXWEIGHT), REAL_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.OBJECTTYPE), INT_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE0.WEIGHT), REAL_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.TOADDA), INT_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.TOADDB), INT_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.TOADDC), INT_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.TURBINEWEIGHT), REAL_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.TURBINEVALIDITY), BOOL_ENUM},*)
 (*DBG:};*)
 (*DBG:*)
-(*DBG:#define VAR_COUNT               5*)
+(*DBG:#define VAR_COUNT               7*)
 (*DBG:*)
 (*DBG:uint16_t get_var_count(void)*)
 (*DBG:{*)
@@ -110,10 +106,10 @@ END_CONFIGURATION
 (*DBG:    switch (debug_vars[idx].type) {*)
 (*DBG:    case INT_ENUM:*)
 (*DBG:        return sizeof(INT);*)
-(*DBG:    case REAL_ENUM:*)
-(*DBG:        return sizeof(REAL);*)
 (*DBG:    case BOOL_ENUM:*)
 (*DBG:        return sizeof(BOOL);*)
+(*DBG:    case REAL_ENUM:*)
+(*DBG:        return sizeof(REAL);*)
 (*DBG:    default:*)
 (*DBG:        return 0;*)
 (*DBG:    }*)
@@ -126,10 +122,10 @@ END_CONFIGURATION
 (*DBG:    switch (debug_vars[idx].type) {*)
 (*DBG:    case INT_ENUM:*)
 (*DBG:        return (void *)&((__IEC_INT_t *) ptr)->value;*)
-(*DBG:    case REAL_ENUM:*)
-(*DBG:        return (void *)&((__IEC_REAL_t *) ptr)->value;*)
 (*DBG:    case BOOL_ENUM:*)
 (*DBG:        return (void *)&((__IEC_BOOL_t *) ptr)->value;*)
+(*DBG:    case REAL_ENUM:*)
+(*DBG:        return (void *)&((__IEC_REAL_t *) ptr)->value;*)
 (*DBG:    default:*)
 (*DBG:        return 0;*)
 (*DBG:    }*)
@@ -148,16 +144,16 @@ END_CONFIGURATION
 (*DBG:            ((__IEC_INT_t *) ptr)->flags |= __IEC_FORCE_FLAG;*)
 (*DBG:            break;*)
 (*DBG:        }*)
-(*DBG:        case REAL_ENUM: {*)
-(*DBG:            memcpy(&((__IEC_REAL_t *) ptr)->value, val, var_size);*)
-(*DBG:            //((__IEC_REAL_t *) ptr)->value = *((REAL *) val);*)
-(*DBG:            ((__IEC_REAL_t *) ptr)->flags |= __IEC_FORCE_FLAG;*)
-(*DBG:            break;*)
-(*DBG:        }*)
 (*DBG:        case BOOL_ENUM: {*)
 (*DBG:            memcpy(&((__IEC_BOOL_t *) ptr)->value, val, var_size);*)
 (*DBG:            //((__IEC_BOOL_t *) ptr)->value = *((BOOL *) val);*)
 (*DBG:            ((__IEC_BOOL_t *) ptr)->flags |= __IEC_FORCE_FLAG;*)
+(*DBG:            break;*)
+(*DBG:        }*)
+(*DBG:        case REAL_ENUM: {*)
+(*DBG:            memcpy(&((__IEC_REAL_t *) ptr)->value, val, var_size);*)
+(*DBG:            //((__IEC_REAL_t *) ptr)->value = *((REAL *) val);*)
+(*DBG:            ((__IEC_REAL_t *) ptr)->flags |= __IEC_FORCE_FLAG;*)
 (*DBG:            break;*)
 (*DBG:        }*)
 (*DBG:        default:*)
@@ -168,11 +164,11 @@ END_CONFIGURATION
 (*DBG:        case INT_ENUM:*)
 (*DBG:            ((__IEC_INT_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
 (*DBG:            break;*)
-(*DBG:        case REAL_ENUM:*)
-(*DBG:            ((__IEC_REAL_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
-(*DBG:            break;*)
 (*DBG:        case BOOL_ENUM:*)
 (*DBG:            ((__IEC_BOOL_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
+(*DBG:            break;*)
+(*DBG:        case REAL_ENUM:*)
+(*DBG:            ((__IEC_REAL_t *) ptr)->flags &= ~__IEC_FORCE_FLAG;*)
 (*DBG:            break;*)
 (*DBG:        default:*)
 (*DBG:            break;*)

@@ -1,11 +1,12 @@
-classdef IndustrialObject < handle
-    % Oggetto corrispondente alle box di viti e bulloni.
-    % Prima si definisce il type tramite sensore di peso, poi si sfrutta lo
-    % state per definire tutti i vari movimenti successivi
+classdef IndustrialObjectType2 < handle
+
+    % Simile a IndustrialObject ma possiede degli attributi in più e non ha
+    % il campo type
     properties
-        type = "NotClassified";    % Box di viti o bulloni
-        state;   % Classificato, MovingToMonitor, Modifing...
+        state = "Entered";
         weight;
+        prop1;
+        prop2;
         shouldDelete = false;
         waitingTime=0;
         graphic;
@@ -13,8 +14,7 @@ classdef IndustrialObject < handle
 
     methods
 
-        function obj = IndustrialObject(weight, graphic)
-            obj.type;
+        function obj = IndustrialObjectType2(weight, graphic)
             obj.state;
             obj.weight = weight;
             obj.graphic = graphic;
@@ -44,10 +44,6 @@ classdef IndustrialObject < handle
 
         function setState(obj, newState)
             obj.state = newState;
-        end
-
-        function setType(obj, newType)
-            obj.type = newType;
         end
     end
 
