@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <project xmlns="http://www.plcopen.org/xml/tc6_0201" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ns1="http://www.plcopen.org/xml/tc6_0201">
   <fileHeader companyName="Sconosciuto" productName="Senza_nome" productVersion="1" creationDateTime="2026-05-07T19:29:21"/>
-  <contentHeader name="Senza_nome" modificationDateTime="2026-05-14T18:55:20">
+  <contentHeader name="Senza_nome" modificationDateTime="2026-05-16T15:13:49">
     <coordinateInfo>
       <fbd>
         <scaling x="10" y="10"/>
@@ -20,34 +20,34 @@
       <pou name="impianto" pouType="program">
         <interface>
           <localVars>
-            <variable name="boxWeight" address="%MD0">
-              <type>
-                <REAL/>
-              </type>
-            </variable>
-            <variable name="objectType" address="%QW0">
+            <variable name="boxWeight" address="%QW0">
               <type>
                 <INT/>
               </type>
             </variable>
-            <variable name="toAddA" address="%QW1">
+            <variable name="boxType" address="%QW1">
               <type>
                 <INT/>
               </type>
             </variable>
-            <variable name="toAddB" address="%QW2">
+            <variable name="toAddA" address="%QW2">
               <type>
                 <INT/>
               </type>
             </variable>
-            <variable name="toAddC" address="%QW3">
+            <variable name="toAddB" address="%QW3">
               <type>
                 <INT/>
               </type>
             </variable>
-            <variable name="turbineWeight" address="%MD1">
+            <variable name="toAddC" address="%QW4">
               <type>
-                <REAL/>
+                <INT/>
+              </type>
+            </variable>
+            <variable name="turbineWeight" address="%QW5">
+              <type>
+                <INT/>
               </type>
             </variable>
             <variable name="turbineValidity" address="%QX0.0">
@@ -59,21 +59,21 @@
         </interface>
         <body>
           <ST>
-            <xhtml:p><![CDATA[IF (boxWeight >= 1.49) AND (boxWeight <= 1.51) THEN
-    objectType := 1;
-    toAddA := REAL_TO_INT((boxWeight-1.500)/3.0*1000.0);
+            <xhtml:p><![CDATA[IF (boxWeight >= 920) AND (boxWeight <= 1080) THEN
+    boxType := 1;
+    toAddA := (1000-boxWeight)/20;
 
-ELSIF (boxWeight >= 2.48) AND (boxWeight <= 2.52) THEN
-    objectType := 2;
-    toAddB := REAL_TO_INT((boxWeight-2.5)/5.0*1000.0);
+ELSIF (boxWeight >= 1280) AND (boxWeight <= 1520) THEN
+    boxType := 2;
+    toAddB := (1400-boxWeight)/30;
 
-ELSIF (boxWeight >= 3.0) AND (boxWeight <= 3.5) THEN
-    objectType := 3;
-    toAddC := REAL_TO_INT((boxWeight-3.3)/50.0*1000.0);
+ELSIF (boxWeight >= 2000) AND (boxWeight <= 2400) THEN
+    boxType := 3;
+    toAddC := (2200-boxWeight)/50;
 
 END_IF;
 
-IF (turbineWeight < 3.1) OR (turbineWeight > 3.4) THEN
+IF (turbineWeight < 3100) OR (turbineWeight > 3400) THEN
     turbineValidity := FALSE;
 ELSE   turbineValidity := TRUE;
 
