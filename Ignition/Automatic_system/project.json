@@ -1,0 +1,7 @@
+{
+  "title": "Automatic_system",
+  "description": "Progetto per linea industriale automatizzata",
+  "enabled": true,
+  "inheritable": false,
+  "parent": ""
+}

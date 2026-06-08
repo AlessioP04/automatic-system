@@ -6,7 +6,7 @@ All'interno dell'impianto sono presenti due diverse linee atte a gestire la fase
 
 # Boxes
 
-Sulla prima linea, a sinistra, arrivano scatole di cartone contenenti 40 bulloni M8. Le dimensioni dei bulloni variano tra le due categorie `(40 x 22 x 20,00)` e `(65 x 22 x 29,55)`, secondo la convenzione riportata al seguente link:
+Sulla prima linea, a sinistra, arrivano scatole di cartone contenenti 40 bulloni M8. Le dimensioni dei bulloni variano tra le tre categorie `(40 x 22 x 20,00)`, `(65 x 22 x 29,55)` e `(120 x 22 x 50,52)`, secondo la convenzione riportata al seguente link:
 
 https://trtechnology.eu/download/tabella-bulloni-testa-esagonale/
 
@@ -14,20 +14,26 @@ Il prodotto si presenta come il seguente:
 
 https://www.amazon.it/Confezione-esagonali-completamente-filettate-esagonale/dp/B093PL3C2R
 
-Il peso della scatola è di 200 grammi in entrambi i casi, mentre il peso desiderato del contenuto è:
+Il peso della scatola è di 200 grammi in tutti i casi, mentre il peso desiderato del contenuto è:
 
-* `40 pz * 20 g` per la prima tipologia;
-* `40 pz * 30 g` per la seconda tipologia.
+* `40 pz * 20 g` per la prima tipologia (A);
+* `40 pz * 30 g` per la seconda tipologia (B);
+* `40 pz * 50 g` per la terza tipologia (C).
+
 
 Il peso totale desiderato delle scatole risulta quindi pari a:
 
 * `1000 g` per la tipologia A;
-* `1400 g` per la tipologia B.
+* `1400 g` per la tipologia B;
+* `2200 g` per la tipologia C.
 
-La macchina che inserisce i bulloni può introdurre un errore massimo di `±3 bulloni`, portando il peso totale delle scatole nei seguenti range:
+La macchina che inserisce i bulloni può introdurre un errore massimo di `±4 bulloni`, portando il peso totale delle scatole nei seguenti range:
 
-* `1000 ± 60 g`
+* `1000 ± 80 g`
 * `1400 ± 120 g`
+* `2200 ± 200 g`
+
+La tipologia C, per ragioni pratiche, non viene generata sul matlab ma il codice a essa associato è già stato scritto. Per aggiungere l'ulteriore linea è sufficiente aggiungere le componenti grafiche dedicate e modificare l'apposita funzione di spawn.
 
 Nella linea è presente in una prima fase un sensore di peso che compie due azioni distinte.
 

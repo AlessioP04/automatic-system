@@ -1,0 +1,217 @@
+{
+  "custom": {},
+  "params": {},
+  "props": {},
+  "root": {
+    "children": [
+      {
+        "meta": {
+          "name": "Label_3"
+        },
+        "position": {
+          "height": 214,
+          "width": 222,
+          "x": 103,
+          "y": 113.5
+        },
+        "props": {
+          "alignVertical": "top",
+          "style": {
+            "backgroundColor": "#FFFFFF",
+            "borderStyle": "solid"
+          },
+          "text": "Monitaggio Boxes"
+        },
+        "type": "ia.display.label"
+      },
+      {
+        "meta": {
+          "name": "Label"
+        },
+        "position": {
+          "height": 32,
+          "rotate": {
+            "anchor": "-77% -131%"
+          },
+          "width": 191,
+          "x": 108,
+          "y": 244
+        },
+        "propConfig": {
+          "props.text": {
+            "binding": {
+              "config": {
+                "fallbackDelay": 2.5,
+                "mode": "direct",
+                "tagPath": "[default]toAddA"
+              },
+              "transforms": [
+                {
+                  "code": "\treturn \"Da aggiungere tipo A: \" + str(value)",
+                  "type": "script"
+                }
+              ],
+              "type": "tag"
+            }
+          }
+        },
+        "type": "ia.display.label"
+      },
+      {
+        "meta": {
+          "name": "Label_0"
+        },
+        "position": {
+          "height": 32,
+          "rotate": {
+            "anchor": "25% -41%"
+          },
+          "width": 204,
+          "x": 108,
+          "y": 283
+        },
+        "propConfig": {
+          "props.text": {
+            "binding": {
+              "config": {
+                "fallbackDelay": 2.5,
+                "mode": "direct",
+                "tagPath": "[default]toAddB"
+              },
+              "transforms": [
+                {
+                  "code": "\treturn \"Da aggiungere tipo B: \" + str(value)",
+                  "type": "script"
+                }
+              ],
+              "type": "tag"
+            }
+          }
+        },
+        "type": "ia.display.label"
+      },
+      {
+        "meta": {
+          "name": "Label_1"
+        },
+        "position": {
+          "height": 32,
+          "rotate": {
+            "anchor": "100% 113%"
+          },
+          "width": 152,
+          "x": 108,
+          "y": 149
+        },
+        "propConfig": {
+          "props.text": {
+            "binding": {
+              "config": {
+                "fallbackDelay": 2.5,
+                "mode": "direct",
+                "tagPath": "[default]boxWeight"
+              },
+              "transforms": [
+                {
+                  "code": "\treturn \"Peso: + \" + str(value)",
+                  "type": "script"
+                }
+              ],
+              "type": "tag"
+            }
+          }
+        },
+        "type": "ia.display.label"
+      },
+      {
+        "meta": {
+          "name": "Label_2"
+        },
+        "position": {
+          "height": 32,
+          "rotate": {
+            "anchor": "75% 75%"
+          },
+          "width": 124,
+          "x": 108,
+          "y": 196
+        },
+        "propConfig": {
+          "props.text": {
+            "binding": {
+              "config": {
+                "fallbackDelay": 2.5,
+                "mode": "direct",
+                "tagPath": "[default]boxType"
+              },
+              "transforms": [
+                {
+                  "code": "\treturn \"Tipologia: \" + str(value)",
+                  "type": "script"
+                }
+              ],
+              "type": "tag"
+            }
+          }
+        },
+        "type": "ia.display.label"
+      },
+      {
+        "meta": {
+          "name": "Checkbox"
+        },
+        "position": {
+          "height": 36,
+          "width": 162,
+          "x": 198,
+          "y": 422
+        },
+        "propConfig": {
+          "props.selected": {
+            "binding": {
+              "config": {
+                "bidirectional": true,
+                "fallbackDelay": 2.5,
+                "mode": "direct",
+                "publishInitial": false,
+                "tagPath": "[default]turbineValidity"
+              },
+              "type": "tag"
+            }
+          }
+        },
+        "type": "ia.input.checkbox"
+      },
+      {
+        "meta": {
+          "name": "Slider"
+        },
+        "position": {
+          "height": 32,
+          "width": 192,
+          "x": 247,
+          "y": 528
+        },
+        "propConfig": {
+          "props.value": {
+            "binding": {
+              "config": {
+                "bidirectional": true,
+                "fallbackDelay": 2.5,
+                "mode": "direct",
+                "publishInitial": false,
+                "tagPath": "[default]toAddC"
+              },
+              "type": "tag"
+            }
+          }
+        },
+        "type": "ia.input.slider"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "type": "ia.container.coord"
+  }
+}
