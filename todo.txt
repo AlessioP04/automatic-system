@@ -1,0 +1,10 @@
+Presentazione
+Presentare in maniera completa il progetto con le idee riguardanti la turbina
+Presentare Ignition
+
+Domande
+OpenPlc: va bene fatto in questo modo? come risolviamo il problema legato ai toAdd (che aumentano quando non dovrebbero)? Vanno bene i bloccchi comparison o conviene fare un'azione inline cosa da scriverla in st? Se volessimo aggiungere un ulteriore comparison, tipo per i casi in cui i pesi sono completamente sbagliati, come potremmo farlo? Su matlab non credo sia difficile bloccare le linee (basta un if nell'updateAllBoxes), ma su openplc? e Ignition?
+
+Ignition: cosa dobbiamo implementare in generale. Bisogna fare resoconti e gestione allarmi? Se sì, cosa può fare Ignition?
+
+Matlab: La grafica va migliorata? 

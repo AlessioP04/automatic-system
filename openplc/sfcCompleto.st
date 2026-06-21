@@ -1,6 +1,19 @@
+FUNCTION_BLOCK comparison
+  VAR_INPUT
+    value : INT;
+    lowerBound : INT;
+    upperBound : INT;
+  END_VAR
+  VAR_OUTPUT
+    output : BOOL;
+  END_VAR
+
+  output := (value >= lowerBound) AND (value <= upperBound);
+END_FUNCTION_BLOCK
+
 PROGRAM program0
   VAR
-    boxWeight AT %QW0 : INT;
+    boxWeight AT %QW0 : INT := 960;
     boxType AT %QW1 : INT;
     toAddA AT %QW2 : INT;
     toAddB AT %QW3 : INT;
@@ -9,12 +22,8 @@ PROGRAM program0
     turbineValidity AT %QX0.0 : BOOL;
   END_VAR
   VAR
-    _TMP_GT5_OUT : BOOL;
-    _TMP_LT8_OUT : BOOL;
-    _TMP_AND10_OUT : BOOL;
-    _TMP_GT13_OUT : BOOL;
-    _TMP_LT16_OUT : BOOL;
-    _TMP_AND2_OUT : BOOL;
+    comparison0 : comparison;
+    comparison1 : comparison;
   END_VAR
 
   INITIAL_STEP Step0:
@@ -22,24 +31,25 @@ PROGRAM program0
   END_STEP
 
   ACTION COMPUTE_FUNCTION_BLOCKS:
-    _TMP_GT5_OUT := GT(boxWeight, 920);
-    _TMP_LT8_OUT := LT(boxWeight, 1080);
-    _TMP_AND10_OUT := AND(_TMP_GT5_OUT, _TMP_LT8_OUT);
-    _TMP_GT13_OUT := GT(boxWeight, 1280);
-    _TMP_LT16_OUT := LT(boxWeight, 1520);
-    _TMP_AND2_OUT := AND(_TMP_GT13_OUT, _TMP_LT16_OUT);
+    comparison0(value := boxWeight, lowerBound := 920, upperBound := 1080);
+    comparison1(value := boxWeight, lowerBound := 1280, upperBound := 1520);
   END_ACTION
 
   TRANSITION FROM Step0 TO boxA
-    := _TMP_AND10_OUT;
+    := comparison0.output;
   END_TRANSITION
 
   INITIAL_STEP boxA:
     BOXA_INLINE1(N);
+    BOXA_INLINE2(N);
   END_STEP
 
   ACTION BOXA_INLINE1:
     boxType:=1;
+  END_ACTION
+
+  ACTION BOXA_INLINE2:
+    toAddA := (1000-boxWeight)/20;
   END_ACTION
 
   TRANSITION FROM boxA TO Step0
@@ -47,15 +57,20 @@ PROGRAM program0
   END_TRANSITION
 
   TRANSITION FROM Step0 TO boxB
-    := _TMP_AND2_OUT;
+    := comparison1.output;
   END_TRANSITION
 
   STEP boxB:
-    BOXB_INLINE2(N);
+    BOXB_INLINE3(N);
+    BOXB_INLINE4(N);
   END_STEP
 
-  ACTION BOXB_INLINE2:
+  ACTION BOXB_INLINE3:
     boxType:=2;
+  END_ACTION
+
+  ACTION BOXB_INLINE4:
+    toAddB := (1400-boxWeight)/30;
   END_ACTION
 
   TRANSITION FROM boxB TO Step0
@@ -73,7 +88,7 @@ CONFIGURATION Config0
   END_RESOURCE
 END_CONFIGURATION
 
-(*DBG:char md5[] = "5c166dcffb0ec71485429c4b82ae5bcb";*)
+(*DBG:char md5[] = "4b29852d463696df4d08341e643236ec";*)
 (*DBG:/**)
 (*DBG: * This file is part of OpenPLC Runtime*)
 (*DBG: **)
@@ -119,25 +134,33 @@ END_CONFIGURATION
 (*DBG:    {&(RES0__INSTANCE0.TOADDC), INT_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.TURBINEWEIGHT), INT_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.TURBINEVALIDITY), BOOL_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE0._TMP_GT5_OUT), BOOL_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE0._TMP_LT8_OUT), BOOL_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE0._TMP_AND10_OUT), BOOL_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE0._TMP_GT13_OUT), BOOL_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE0._TMP_LT16_OUT), BOOL_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE0._TMP_AND2_OUT), BOOL_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.COMPARISON0.EN), BOOL_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.COMPARISON0.ENO), BOOL_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.COMPARISON0.VALUE), INT_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.COMPARISON0.LOWERBOUND), INT_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.COMPARISON0.UPPERBOUND), INT_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.COMPARISON0.OUTPUT), BOOL_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.COMPARISON1.EN), BOOL_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.COMPARISON1.ENO), BOOL_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.COMPARISON1.VALUE), INT_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.COMPARISON1.LOWERBOUND), INT_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.COMPARISON1.UPPERBOUND), INT_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.COMPARISON1.OUTPUT), BOOL_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.__step_list[0].X), BOOL_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.__action_list[0].state), BOOL_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.__debug_transition_list[0]), BOOL_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.__step_list[1].X), BOOL_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.__action_list[1].state), BOOL_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.__action_list[2].state), BOOL_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.__debug_transition_list[1]), BOOL_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.__debug_transition_list[2]), BOOL_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.__step_list[2].X), BOOL_ENUM},*)
-(*DBG:    {&(RES0__INSTANCE0.__action_list[2].state), BOOL_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.__action_list[3].state), BOOL_ENUM},*)
+(*DBG:    {&(RES0__INSTANCE0.__action_list[4].state), BOOL_ENUM},*)
 (*DBG:    {&(RES0__INSTANCE0.__debug_transition_list[3]), BOOL_ENUM},*)
 (*DBG:};*)
 (*DBG:*)
-(*DBG:#define VAR_COUNT               23*)
+(*DBG:#define VAR_COUNT               31*)
 (*DBG:*)
 (*DBG:uint16_t get_var_count(void)*)
 (*DBG:{*)

@@ -49,4 +49,20 @@ Un ultimo strumento sigilla correttamente la scatola e conclude il processo oper
 
 # Turbine
 
-Da definire.
+In base alle dimensioni delle pale della turbina e delle angolazioni viene effettuato un riconoscimento della tipologia di turbina e vengono effettuati controlli sulla qualità e correttezza della struttura. Se il primo controllo viene superato, la turbina sarà posta su un banco di prova e sottoposta ad un test di funzionamento così strutturato:
+- controllo sensori;
+- avviamento motore;
+- salita a 1000 rpm;
+- salita a 2000 rpm;
+- salita a 3000 rpm;
+- misura temperatura;
+- misura vibrazioni;
+- arresto
+
+Data la pericolosità dell'operazione sono integrate alcune condizioni di allarme:
+- temperatura elevata;
+- eccessive vibrazioni;
+- velocità fuori tolleranza
+
+In caso di esito positivo, la turbina viene approvata e inviata verso l'esterno.
+In caso di esito negativo, la turbina viene scaratata e inviata verso un centro riparazioni (non di nostra competenza).

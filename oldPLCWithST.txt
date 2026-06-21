@@ -1,0 +1,21 @@
+IF (boxWeight >= 920) AND (boxWeight <= 1080) THEN
+    boxType := 1;
+    toAddA := (1000-boxWeight)/20;
+
+ELSIF (boxWeight >= 1280) AND (boxWeight <= 1520) THEN
+    boxType := 2;
+    toAddB := (1400-boxWeight)/30;
+
+ELSIF (boxWeight >= 2000) AND (boxWeight <= 2400) THEN
+    boxType := 3;
+    toAddC := (2200-boxWeight)/50;
+
+END_IF;
+
+IF (turbineWeight < 3100) OR (turbineWeight > 3400) THEN
+    turbineValidity := FALSE;
+ELSE   turbineValidity := TRUE;
+
+END_IF;
+
+
